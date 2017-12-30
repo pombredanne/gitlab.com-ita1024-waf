@@ -1,3 +1,17 @@
+waf-1.9 is a legacy branch kept for some old builds, consider upgrading to waf 2.0!
+
+WAF 1.9.15
+----------
+* Fix self.includes sharing with global variables #2035
+* Improve default preprocessor behaviour for gcc/msvc
+* Use correct batch filed and function for Intel Fortran detection on Windows #2063
+* Improve the deadlock error message
+* Enable install_path=None for Python targets #2087
+* Fix Can't pickle local object '_createenviron.<locals>.encode' exceptions (Python 3.6)
+* Define the environment variable WAF_NO_PREFORK to skip pre-forking
+
+----------------------------------------------------------------------------------------
+
 NEW IN WAF 1.9.14
 -----------------
 * Fix Configure.autoconfig='clobber' when no previous configuration is present
