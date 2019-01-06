@@ -1,7 +1,10 @@
 pipeline {
-    agent any
+    agent none
     stages {
         stage('Build') {
+            agent {
+              label 'jvm_ubuntu'
+            }
             steps {
                 echo 'building?'
                 sh  'ls -l'
@@ -18,12 +21,12 @@ pipeline {
                     }
                     steps {
                         echo "On ubuntu"
+                        sh 'uname -a'
                     }
                 }
                 stage('Freebsd') {
                     agent {
                         label "jvm_freebsd"
-                        sh 'uname -a'
                     }
                     steps {
                         echo "On Freebsd"
