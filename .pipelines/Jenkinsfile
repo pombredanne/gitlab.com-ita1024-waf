@@ -3,15 +3,6 @@ pipeline {
     stages {
         stage('Build') {
             parallel {
-                stage('Python 2.5') {
-                    agent {
-                        label "jvm_ubuntu"
-                    }
-                    steps {
-                        echo "On ubuntu"
-                        sh 'LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf-light'
-                    }
-                }
                 stage('Python 2.7') {
                     agent {
                         label "jvm_ubuntu"
@@ -68,7 +59,20 @@ fi
         }
         stage('Integration builds') {
             parallel {
-                stage('Ubuntu') {
+                stage('Ubuntu build with Python 2.5') {
+                    agent {
+                        label "jvm_ubuntu"
+                    }
+                    steps {
+                        sh '''
+./waf-light
+cp waf demos/c
+cd demos/c
+LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build
+'''
+                    }
+                }
+                stage('Ubuntu build with Python 2.7') {
                     agent {
                         label "jvm_ubuntu"
                     }
@@ -81,7 +85,7 @@ python2.7 ./waf distclean configure clean build
 '''
                     }
                 }
-                stage('Freebsd') {
+                stage('Freebsd C build with Python 2') {
                     agent {
                         label "jvm_freebsd"
                     }
