@@ -32,7 +32,7 @@ pipeline {
                     steps {
                         sh '''
 cd waflib
-find . -iname "*.pyc" -exec rm -f {} \\; || false
+find . -iname "*.pyc" -exec rm -f {} \\; || true
 (((PYTHONWARNINGS=all python3.6 -m compileall . > /dev/null) 2>&1 ) 2>&1) | grep -i DeprecationWarning && exit 1
 '''
                     }
