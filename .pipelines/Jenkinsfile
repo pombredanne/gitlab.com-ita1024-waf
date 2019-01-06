@@ -2,23 +2,83 @@ pipeline {
     agent none
     stages {
         stage('Build') {
-            agent {
-              label 'jvm_ubuntu'
-            }
-            steps {
-                echo 'building?'
-                sh  'ls -l'
+            parallel {
+                stage('Python 2.5') {
+                    agent {
+                        label "jvm_ubuntu"
+                    }
+                    steps {
+                        echo "On ubuntu"
+                        sh 'LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf-light'
+                    }
+                }
+                stage('Python 2.7') {
+                    agent {
+                        label "jvm_ubuntu"
+                    }
+                    steps {
+                        echo "On ubuntu"
+                        sh 'python2.7 ./waf-light'
+                    }
+                }
+                stage('Python 3.6') {
+                    agent {
+                        label "jvm_freebsd"
+                    }
+                    steps {
+                        echo "On Freebsd"
+                        sh 'python3.6 ./waf-light'
+                    }
+                }
             }
         }
-        stage('Parallel builds') {
+        stage('Linting') {
+            parallel {
+                stage('Deprecation warnings') {
+                    agent {
+                        label "jvm_ubuntu"
+                    }
+                    steps {
+                        sh '''
+cd waflib
+find . -iname "*.pyc" -exec rm -f {} \; || false
+(((PYTHONWARNINGS=all python3.6 -m compileall . > /dev/null) 2>&1 ) 2>&1) | grep -i DeprecationWarning && exit 1
+'''
+                    }
+                }
+                stage('Pyflakes') {
+                    agent {
+                        label "jvm_freebsd"
+                    }
+                    steps {
+                        sh '''
+cd waflib
+var=`(/usr/local/bin/pyflakes3.py *.py Tools/*.py extras/*.py 2>&1) | egrep "undefined name|invalid syntax|inconsistent use|unindent does not match any outer indentation level" | wc -l`
+if [ "0" -eq "$var" ]
+then
+   /usr/local/bin/pyflakes3.py *.py Tools/*.py extras/*.py || true
+else
+   # just do it again and fail
+   /usr/local/bin/pyflakes3.py *.py Tools/*.py extras/*.py
+fi
+'''
+                    }
+                }
+            }
+        }
+        stage('Integration builds') {
             parallel {
                 stage('Ubuntu') {
                     agent {
                         label "jvm_ubuntu"
                     }
                     steps {
-                        echo "On ubuntu"
-                        sh 'uname -a'
+                        sh '''
+./waf-light
+cp waf demos/c
+cd demos/c
+python2.7 ./waf distclean configure clean build
+'''
                     }
                 }
                 stage('Freebsd') {
@@ -26,27 +86,14 @@ pipeline {
                         label "jvm_freebsd"
                     }
                     steps {
-                        echo "On Freebsd"
-                        sh 'uname -a'
+                        sh '''
+./waf-light
+/bin/cp waf demos/c/
+cd demos/c
+python3.6 ./waf distclean configure clean build
+'''
                     }
                 }
-                /* stage('Branch C') {
-                    agent {
-                        label "for-branch-c"
-                    }
-                    stages {
-                        stage('Nested 1') {
-                            steps {
-                                echo "In stage Nested 1 within Branch C"
-                            }
-                        }
-                        stage('Nested 2') {
-                            steps {
-                                echo "In stage Nested 2 within Branch C"
-                            }
-                        }
-                    }
-                } */
             }
         }
     }
