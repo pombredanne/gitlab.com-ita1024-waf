@@ -144,7 +144,7 @@ export CFLAGS='-std=c99 -D_STDC_C99'
                 }
                 stage('OpenBSD/py3') {
                     agent {
-                        label "jvm_freebsd"
+                        label "openbsd"
                     }
                     steps {
                         sh '''
