@@ -62,23 +62,28 @@ fi
 ./waf-light
 # cannot use pushd
 export PATH=$PATH:$PWD
-echo "the path is" $PATH
+echo "the path is" $PATH'''
+                        sh '''
 cd tests/preproc/
 ../../waf distclean
 ../../waf configure build
-cd ../..
+cd ../..'''
+                        sh '''
 cd tests/install/
 ../../waf distclean
 ../../waf configure build
-cd ../..
+cd ../..'''
+                        sh '''
 cd tests/general/
 ../../waf distclean
 ../../waf configure build
-cd ../..
+cd ../..'''
+                        sh '''
 cd tests/init/
 ../../waf distclean
 ../../waf configure build
-cd ../..
+cd ../..'''
+                        sh '''
 export WAF_TEST_GROUP=waftest
 cd tests/install_group/
 ../../waf distclean
