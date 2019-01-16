@@ -227,7 +227,7 @@ copy waf demos\\c /Y
 cd demos\\c
 set MSYSTEM=MINGW64
 set WD=C:\\msys64\\usr\\bin
-C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "cd %cd% && python waf configure clean build && python waf distclean"'
+C:\\msys64\\usr\\bin\\sh -c 'exec /bin/bash -c "cd %cd% && python waf configure clean build && python waf distclean"'
 '''
                     }
                 }
@@ -244,7 +244,7 @@ copy waf demos\\c /Y
 cd demos\\c
 set MSYSTEM=MINGW64
 set WD=C:\\msys64\\usr\\bin
-C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "cd %cd% && python3 waf configure clean build && python3 waf distclean"'
+C:\\msys64\\usr\\bin\\sh -c 'exec /bin/bash -c "cd %cd% && python3 waf configure clean build && python3 waf distclean"'
 '''
                     }
                 }
