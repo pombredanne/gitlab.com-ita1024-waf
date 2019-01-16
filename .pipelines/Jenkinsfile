@@ -168,8 +168,8 @@ cd demos/c
 C:/Python34/python.exe waf-light
 '''
 			sh '''
-copy waf demos\c /Y
-cd demos\c
+copy waf demos\\c /Y
+cd demos\\c
 C:/Python34/python.exe waf distclean
 C:/Python34/python.exe waf configure --no-msvc-lazy build -v
 '''
