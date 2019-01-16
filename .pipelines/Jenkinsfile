@@ -3,7 +3,7 @@ pipeline {
     agent none
     stages {
         stage('Build and Lint') {
-            stages {
+            parallel {
                 stage('Python 2.7') {
                     agent {
                         label "ubuntu"
@@ -54,19 +54,26 @@ fi
                     }
                 }
                 stage('Unit tests') {
-                    agent {
-                        label "fedora"
-                    }
-                    steps {
-                        sh '''
+                    stages {
+                        stage('Preproc') {
+                            agent {
+                                label "fedora"
+                            }
+                            steps {
+                                sh '''
 ./waf-light
-'''
-                        sh '''
 cd tests/preproc/
 ../../waf distclean
 ../../waf configure build
 cd ../..'''
-                        sh '''
+                            }
+                        }
+                        stage('Install') {
+                            agent {
+                                label "fedora"
+                            }
+                            steps {
+                                sh '''
 cd tests/install/
 ../../waf distclean
 ../../waf configure build
@@ -88,6 +95,8 @@ cd tests/install_group/
 ../../waf distclean
 ../../waf configure build
 '''
+                            }
+                        }
                     }
                 }
             }
