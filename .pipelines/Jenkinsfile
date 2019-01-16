@@ -6,7 +6,7 @@ pipeline {
             parallel {
                 stage('Python 2.7') {
                     agent {
-                        label "jvm_ubuntu"
+                        label "ubuntu"
                     }
                     steps {
                         echo "On ubuntu"
@@ -15,7 +15,7 @@ pipeline {
                 }
                 stage('Python 3.6') {
                     agent {
-                        label "jvm_freebsd"
+                        label "freebsd"
                     }
                     steps {
                         echo "On Freebsd"
@@ -24,7 +24,7 @@ pipeline {
                 }
                 stage('Deprecation warnings') {
                     agent {
-                        label "jvm_ubuntu"
+                        label "ubuntu"
                     }
                     steps {
                         sh '''
@@ -36,7 +36,7 @@ find . -iname "*.pyc" -exec rm -f {} \\; || true
                 }
                 stage('Pyflakes') {
                     agent {
-                        label "jvm_freebsd"
+                        label "freebsd"
                     }
                     steps {
                         sh '''
@@ -55,7 +55,7 @@ fi
                 }
                 stage('Unit tests') {
                     agent {
-                        label "jvm_fedora"
+                        label "fedora"
                     }
                     steps {
                         sh '''
@@ -92,7 +92,7 @@ cd tests/install_group/
             parallel {
                 stage('Ubuntu/py2.5') {
                     agent {
-                        label "jvm_ubuntu"
+                        label "ubuntu"
                     }
                     steps {
                         sh '''
@@ -105,7 +105,7 @@ LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean buil
                 }
                 stage('Ubuntu/py2.7') {
                     agent {
-                        label "jvm_ubuntu"
+                        label "ubuntu"
                     }
                     steps {
                         sh '''
@@ -118,7 +118,7 @@ python2.7 ./waf distclean configure clean build
                 }
                 stage('Ubuntu/py3') {
                     agent {
-                        label "jvm_ubuntu"
+                        label "ubuntu"
                     }
                     steps {
                         sh '''
@@ -131,7 +131,7 @@ python3 ./waf distclean configure clean build
                 }
                 stage('Openindiana/py2') {
                     agent {
-                        label "jvm_openindiana"
+                        label "openindiana"
                     }
                     steps {
                         sh '''
@@ -158,7 +158,7 @@ python3 ./waf configure installcheck
                 }
                 stage('FreeBSD/py3') {
                     agent {
-                        label "jvm_freebsd"
+                        label "freebsd"
                     }
                     steps {
                         sh '''
@@ -171,7 +171,7 @@ python3.6 ./waf distclean configure clean build
                 }
                 stage('MacOS/py2') {
                     agent {
-                        label "jvm_mac"
+                        label "macos"
                     }
                     steps {
                         sh '''
@@ -184,7 +184,7 @@ cd demos/c
                 }
                 stage('Windows/py3') {
                     agent {
-                        label "jvm_windows10"
+                        label "windows"
                     }
                     steps {
                         bat '''
@@ -200,7 +200,7 @@ C:/Python34/python.exe waf configure --no-msvc-lazy build -v
                 }
                 stage('Windows/IronPython') {
                     agent {
-                        label "jvm_windows10"
+                        label "windows"
                     }
                     steps {
                         bat '''
@@ -216,7 +216,7 @@ cd demos\\c
                 }
                 stage('Msys2/py2') {
                     agent {
-                        label "jvm_windows10"
+                        label "windows"
                     }
                     steps {
                         bat '''
@@ -233,7 +233,7 @@ C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "cd /C/jenkins/workspace/
                 }
                 stage('Msys2/py3') {
                     agent {
-                        label "jvm_windows10"
+                        label "windows"
                     }
                     steps {
                         bat '''
