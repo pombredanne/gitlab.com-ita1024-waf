@@ -107,7 +107,7 @@ LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean buil
 '''
                     }
                 }
-                stage('Ubuntu C build with Python 2.7') {
+                stage('Ubuntu/C/2.7') {
                     agent {
                         label "jvm_ubuntu"
                     }
@@ -120,7 +120,7 @@ python2.7 ./waf distclean configure clean build
 '''
                     }
                 }
-                stage('Ubuntu C build with Python 3') {
+                stage('Ubuntu/C/3') {
                     agent {
                         label "jvm_ubuntu"
                     }
@@ -133,7 +133,7 @@ python3 ./waf distclean configure clean build
 '''
                     }
                 }
-                stage('Freebsd C build with Python 3') {
+                stage('FreeBSD/C/3') {
                     agent {
                         label "jvm_freebsd"
                     }
@@ -146,7 +146,7 @@ python3.6 ./waf distclean configure clean build
 '''
                     }
                 }
-                stage('MacOS C build') {
+                stage('MacOS/C/build') {
                     agent {
                         label "jvm_mac"
                     }
@@ -156,6 +156,22 @@ python3.6 ./waf distclean configure clean build
 /bin/cp waf demos/c/
 cd demos/c
 ./waf distclean configure clean build
+'''
+                    }
+                }
+                stage('Windows/C/build') {
+                    agent {
+                        label "jvm_windows10"
+                    }
+                    steps {
+                        sh '''
+C:/Python34/python.exe waf-light
+'''
+			sh '''
+copy waf demos\c /Y
+cd demos\c
+C:/Python34/python.exe waf distclean
+C:/Python34/python.exe waf configure --no-msvc-lazy build -v
 '''
                     }
                 }
