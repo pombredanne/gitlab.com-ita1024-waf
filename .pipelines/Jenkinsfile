@@ -94,7 +94,7 @@ cd tests/install_group/
         }
         stage('Integration builds') {
             parallel {
-                stage('Ubuntu build with Python 2.5') {
+                stage('Ubuntu C build with Python 2.5') {
                     agent {
                         label "jvm_ubuntu"
                     }
@@ -107,7 +107,7 @@ LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean buil
 '''
                     }
                 }
-                stage('Ubuntu build with Python 2.7') {
+                stage('Ubuntu C build with Python 2.7') {
                     agent {
                         label "jvm_ubuntu"
                     }
