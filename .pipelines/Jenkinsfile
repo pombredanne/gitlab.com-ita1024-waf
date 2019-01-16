@@ -52,7 +52,41 @@ then
 else
    # just do it again and fail
    /usr/local/bin/pyflakes3.py *.py Tools/*.py extras/*.py
+   exit 1
 fi
+'''
+                    }
+                }
+                stage('Unit tests') {
+                    agent {
+                        label "jvm_wedora"
+                    }
+                    steps {
+                        sh '''
+./waf-light
+# cannot use pushd
+export PATH=$PATH:$PWD
+echo "the path is" $PATH
+cd tests/preproc/
+../../waf distclean
+../../waf configure build
+cd ../..
+cd tests/install/
+../../waf distclean
+../../waf configure build
+cd ../..
+cd tests/general/
+../../waf distclean
+../../waf configure build
+cd ../..
+cd tests/init/
+../../waf distclean
+../../waf configure build
+cd ../..
+export WAF_TEST_GROUP=waftest
+cd tests/install_group/
+../../waf distclean
+../../waf configure build
 '''
                     }
                 }
@@ -86,7 +120,7 @@ python2.7 ./waf distclean configure clean build
 '''
                     }
                 }
-                stage('Freebsd C build with Python 2') {
+                stage('Freebsd C build with Python 3') {
                     agent {
                         label "jvm_freebsd"
                     }
