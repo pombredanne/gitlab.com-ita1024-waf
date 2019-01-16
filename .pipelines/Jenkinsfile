@@ -164,10 +164,10 @@ cd demos/c
                         label "jvm_windows10"
                     }
                     steps {
-                        sh '''
+                        bat '''
 C:/Python34/python.exe waf-light
 '''
-			sh '''
+			bat '''
 copy waf demos\\c /Y
 cd demos\\c
 C:/Python34/python.exe waf distclean
