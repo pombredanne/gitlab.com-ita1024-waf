@@ -120,6 +120,19 @@ python2.7 ./waf distclean configure clean build
 '''
                     }
                 }
+                stage('Ubuntu C build with Python 3') {
+                    agent {
+                        label "jvm_ubuntu"
+                    }
+                    steps {
+                        sh '''
+./waf-light
+cp waf demos/c
+cd demos/c
+python3 ./waf distclean configure clean build
+'''
+                    }
+                }
                 stage('Freebsd C build with Python 3') {
                     agent {
                         label "jvm_freebsd"
@@ -130,6 +143,19 @@ python2.7 ./waf distclean configure clean build
 /bin/cp waf demos/c/
 cd demos/c
 python3.6 ./waf distclean configure clean build
+'''
+                    }
+                }
+                stage('MacOS C build') {
+                    agent {
+                        label "jvm_mac"
+                    }
+                    steps {
+                        sh '''
+./waf-light
+/bin/cp waf demos/c/
+cd demos/c
+./waf distclean configure clean build
 '''
                     }
                 }
