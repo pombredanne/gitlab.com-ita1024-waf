@@ -159,7 +159,7 @@ cd demos/c
 '''
                     }
                 }
-                stage('Windows/C/build') {
+                stage('Windows/C/3') {
                     agent {
                         label "jvm_windows10"
                     }
@@ -172,6 +172,46 @@ copy waf demos\\c /Y
 cd demos\\c
 C:/Python34/python.exe waf distclean
 C:/Python34/python.exe waf configure --no-msvc-lazy build -v
+'''
+                    }
+                }
+                stage('Windows/C/IronPython') {
+                    agent {
+                        label "jvm_windows10"
+                    }
+                    steps {
+                        bat '''
+C:/Python34/python.exe waf-light --zip-type=gz
+'''
+			bat '''
+copy waf demos\\c /Y
+cd demos\\c
+"C:\\Program Files (x86)\\IronPython 2.7\\ipy64.exe" waf distclean
+"C:\\Program Files (x86)\\IronPython 2.7\\ipy64.exe" waf configure build build
+'''
+                    }
+                }
+                stage('Windows/C/Msys2') {
+                    agent {
+                        label "jvm_windows10"
+                    }
+                    steps {
+                        bat '''
+C:/Python34/python.exe waf-light
+'''
+			bat '''
+copy waf demos\\c /Y
+cd demos\\c
+set MSYSTEM=MINGW64
+set WD=C:\\msys64\\usr\\bin
+C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "cd /C/jenkins/workspace/waf-windows10-msys2/demos/c && python3 waf configure clean build && python3 waf distclean"'
+'''
+                        bat '''
+copy waf demos\\c /Y
+cd demos\\c
+set MSYSTEM=MINGW64
+set WD=C:\\msys64\\usr\\bin
+C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "cd /C/jenkins/workspace/waf-windows10-msys2/demos/c && python waf configure clean build && python waf distclean"'
 '''
                     }
                 }
