@@ -59,7 +59,7 @@ fi
                 }
                 stage('Unit tests') {
                     agent {
-                        label "jvm_wedora"
+                        label "jvm_fedora"
                     }
                     steps {
                         sh '''
