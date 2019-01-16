@@ -88,7 +88,7 @@ cd tests/install_group/
                 }
             }
         }
-        stage('Integration C builds') {
+        stage('Integration/C') {
             parallel {
                 stage('Ubuntu/py2.5') {
                     agent {
@@ -153,6 +153,20 @@ cp waf demos/
 cd demos/
 python3 ./waf distclean
 python3 ./waf configure installcheck
+'''
+                    }
+                }
+                stage('OpenBSD/Jython') {
+                    agent {
+                        label "openbsd"
+                    }
+                    steps {
+                        sh '''
+export WAF_NO_PREFORK=1
+/home/jenkins/jython/bin/jython ./waf-light
+cp waf demos/c
+cd demos/c
+/home/jenkins/jython/bin/jython ./waf distclean configure clean build
 '''
                     }
                 }
