@@ -227,6 +227,7 @@ copy waf demos\\c /Y
 cd demos\\c
 set MSYSTEM=MINGW64
 set WD=C:\\msys64\\usr\\bin
+C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "pwd"'
 C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "cd /C/jenkins/workspace/waf-windows10-msys2/demos/c && python waf configure clean build && python waf distclean"'
 '''
                     }
