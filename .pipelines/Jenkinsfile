@@ -3,7 +3,7 @@ pipeline {
     agent none
     stages {
         stage('Build and Lint') {
-            parallel {
+            stages {
                 stage('Python 2.7') {
                     agent {
                         label "ubuntu"
