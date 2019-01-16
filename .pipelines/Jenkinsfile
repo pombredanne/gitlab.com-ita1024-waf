@@ -133,6 +133,19 @@ python3 ./waf distclean configure clean build
 '''
                     }
                 }
+                stage('Openindiana/py2') {
+                    agent {
+                        label "jvm_openindiana"
+                    }
+                    steps {
+                        sh '''
+./waf-light
+export WAFDIR=`pwd`
+export CFLAGS='-std=c99 -D_STDC_C99'
+./waf configure clean build --top=$WAFDIR/demos/c
+'''
+                    }
+                }
                 stage('FreeBSD/py3') {
                     agent {
                         label "jvm_freebsd"
