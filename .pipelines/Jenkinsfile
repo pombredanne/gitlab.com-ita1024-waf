@@ -92,9 +92,9 @@ cd tests/install_group/
                 }
             }
         }
-        stage('Integration builds') {
+        stage('Integration C builds') {
             parallel {
-                stage('Ubuntu C build with Python 2.5') {
+                stage('Ubuntu/py2.5') {
                     agent {
                         label "jvm_ubuntu"
                     }
@@ -107,7 +107,7 @@ LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean buil
 '''
                     }
                 }
-                stage('Ubuntu/C/2.7') {
+                stage('Ubuntu/py2.7') {
                     agent {
                         label "jvm_ubuntu"
                     }
@@ -120,7 +120,7 @@ python2.7 ./waf distclean configure clean build
 '''
                     }
                 }
-                stage('Ubuntu/C/3') {
+                stage('Ubuntu/py3') {
                     agent {
                         label "jvm_ubuntu"
                     }
@@ -133,7 +133,7 @@ python3 ./waf distclean configure clean build
 '''
                     }
                 }
-                stage('FreeBSD/C/3') {
+                stage('FreeBSD/py3') {
                     agent {
                         label "jvm_freebsd"
                     }
@@ -146,7 +146,7 @@ python3.6 ./waf distclean configure clean build
 '''
                     }
                 }
-                stage('MacOS/C/build') {
+                stage('MacOS/py2') {
                     agent {
                         label "jvm_mac"
                     }
@@ -159,7 +159,7 @@ cd demos/c
 '''
                     }
                 }
-                stage('Windows/C/3') {
+                stage('Windows/py3') {
                     agent {
                         label "jvm_windows10"
                     }
@@ -175,7 +175,7 @@ C:/Python34/python.exe waf configure --no-msvc-lazy build -v
 '''
                     }
                 }
-                stage('Windows/C/IronPython') {
+                stage('Windows/IronPython') {
                     agent {
                         label "jvm_windows10"
                     }
@@ -191,7 +191,24 @@ cd demos\\c
 '''
                     }
                 }
-                stage('Windows/C/Msys2') {
+                stage('Msys2/py2') {
+                    agent {
+                        label "jvm_windows10"
+                    }
+                    steps {
+                        bat '''
+C:/Python34/python.exe waf-light
+'''
+                        bat '''
+copy waf demos\\c /Y
+cd demos\\c
+set MSYSTEM=MINGW64
+set WD=C:\\msys64\\usr\\bin
+C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "cd /C/jenkins/workspace/waf-windows10-msys2/demos/c && python waf configure clean build && python waf distclean"'
+'''
+                    }
+                }
+                stage('Msys2/py3') {
                     agent {
                         label "jvm_windows10"
                     }
@@ -205,13 +222,6 @@ cd demos\\c
 set MSYSTEM=MINGW64
 set WD=C:\\msys64\\usr\\bin
 C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "cd /C/jenkins/workspace/waf-windows10-msys2/demos/c && python3 waf configure clean build && python3 waf distclean"'
-'''
-                        bat '''
-copy waf demos\\c /Y
-cd demos\\c
-set MSYSTEM=MINGW64
-set WD=C:\\msys64\\usr\\bin
-C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "cd /C/jenkins/workspace/waf-windows10-msys2/demos/c && python waf configure clean build && python waf distclean"'
 '''
                     }
                 }
