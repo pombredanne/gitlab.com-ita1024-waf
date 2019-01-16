@@ -60,9 +60,7 @@ fi
                     steps {
                         sh '''
 ./waf-light
-# cannot use pushd
-export PATH=$PATH:$PWD
-echo "the path is" $PATH'''
+'''
                         sh '''
 cd tests/preproc/
 ../../waf distclean
@@ -79,6 +77,7 @@ cd tests/general/
 ../../waf configure build
 cd ../..'''
                         sh '''
+export PATH=$PATH:$PWD
 cd tests/init/
 ../../waf distclean
 ../../waf configure build
