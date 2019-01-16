@@ -2,7 +2,7 @@
 pipeline {
     agent none
     stages {
-        stage('Build') {
+        stage('Build and Lint') {
             parallel {
                 stage('Python 2.7') {
                     agent {
@@ -22,10 +22,6 @@ pipeline {
                         sh 'python3.6 ./waf-light'
                     }
                 }
-            }
-        }
-        stage('Linting') {
-            parallel {
                 stage('Deprecation warnings') {
                     agent {
                         label "jvm_ubuntu"
@@ -143,6 +139,20 @@ python3 ./waf distclean configure clean build
 export WAFDIR=`pwd`
 export CFLAGS='-std=c99 -D_STDC_C99'
 ./waf configure clean build --top=$WAFDIR/demos/c
+'''
+                    }
+                }
+                stage('OpenBSD/py3') {
+                    agent {
+                        label "jvm_freebsd"
+                    }
+                    steps {
+                        sh '''
+python3 ./waf-light
+cp waf demos/
+cd demos/
+python3 ./waf distclean
+python3 ./waf configure installcheck
 '''
                     }
                 }
