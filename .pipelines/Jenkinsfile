@@ -54,26 +54,17 @@ fi
                     }
                 }
                 stage('Unit tests') {
-                    stages {
-                        stage('Preproc') {
-                            agent {
-                                label "fedora"
-                            }
-                            steps {
-                                sh '''
+                    agent {
+                        label "fedora"
+                    }
+                    steps {
+                        sh '''
 ./waf-light
 cd tests/preproc/
 ../../waf distclean
 ../../waf configure build
 cd ../..'''
-                            }
-                        }
-                        stage('Install') {
-                            agent {
-                                label "fedora"
-                            }
-                            steps {
-                                sh '''
+                        sh '''
 cd tests/install/
 ../../waf distclean
 ../../waf configure build
@@ -95,8 +86,6 @@ cd tests/install_group/
 ../../waf distclean
 ../../waf configure build
 '''
-                            }
-                        }
                     }
                 }
             }
@@ -250,17 +239,99 @@ cd tests/install_group/
 			}
                     }
                 }
-                stage('Openindiana/py2') {
-                    agent {
-                        label "openindiana"
-                    }
-                    steps {
-                        sh '''
-./waf-light
-export WAFDIR=`pwd`
-export CFLAGS='-std=c99 -D_STDC_C99'
-./waf configure clean build --top=$WAFDIR/demos/c
-'''
+                stage('OpenIndiana') {
+                    stages {
+                        stage('C/py2') {
+			    agent {
+				label "openindiana"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	export WAFDIR=`pwd`
+	export CFLAGS='-std=c99 -D_STDC_C99'
+	./waf configure clean build --top=$WAFDIR/demos/c
+	'''
+			    }
+			}
+                        stage('C++/py2') {
+			    agent {
+				label "openindiana"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	export WAFDIR=`pwd`
+	export CFLAGS='-std=c99 -D_STDC_C99'
+	./waf configure clean build --top=$WAFDIR/demos/c++
+	'''
+			    }
+			}
+                        stage('Dbus/py2') {
+			    agent {
+				label "openindiana"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	export WAFDIR=`pwd`
+	export CFLAGS='-std=c99 -D_STDC_C99'
+	./waf configure clean build --top=$WAFDIR/demos/dbus
+	'''
+			    }
+			}
+                        stage('Java/py2') {
+			    agent {
+				label "openindiana"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	export WAFDIR=`pwd`
+	export CFLAGS='-std=c99 -D_STDC_C99'
+	./waf configure clean build --top=$WAFDIR/demos/java
+	'''
+			    }
+			}
+                        stage('Perl/py2') {
+			    agent {
+				label "openindiana"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	export WAFDIR=`pwd`
+	export CFLAGS='-std=c99 -D_STDC_C99'
+	./waf configure clean build --top=$WAFDIR/demos/perl
+	'''
+			    }
+			}
+                        stage('Python/py2') {
+			    agent {
+				label "openindiana"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	export WAFDIR=`pwd`
+	export CFLAGS='-std=c99 -D_STDC_C99'
+	./waf configure clean build --top=$WAFDIR/demos/python
+	'''
+			    }
+			}
+                        stage('Ruby/py2') {
+			    agent {
+				label "openindiana"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	export WAFDIR=`pwd`
+	export CFLAGS='-std=c99 -D_STDC_C99'
+	./waf configure clean build --top=$WAFDIR/demos/ruby
+	'''
+			    }
+			}
                     }
                 }
                 stage('FreeBSD/py3') {
