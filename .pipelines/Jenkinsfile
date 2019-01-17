@@ -347,17 +347,47 @@ python3.6 ./waf distclean configure clean build
 '''
                     }
                 }
-                stage('MacOS/py2') {
-                    agent {
-                        label "macos"
-                    }
-                    steps {
-                        sh '''
-./waf-light
-/bin/cp waf demos/c/
-cd demos/c
-./waf distclean configure clean build
-'''
+                stage('MacOS') {
+                    stages {
+                        stage('C/py2') {
+			    agent {
+				label "macos"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/c/
+	cd demos/c
+	./waf distclean configure clean build
+	'''
+			    }
+                        }
+                        stage('Python/py2') {
+			    agent {
+				label "macos"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/python/
+	cd demos/python
+	./waf distclean configure clean build
+	'''
+			    }
+                        }
+                        stage('MacApp/py2') {
+			    agent {
+				label "macos"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/mac_app/
+	cd demos/mac_app
+	./waf distclean configure clean build
+	'''
+			    }
+                        }
                     }
                 }
             }
