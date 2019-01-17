@@ -349,6 +349,123 @@ cd tests/install_group/
 	'''
 			    }
 			}
+			stage('C++/py3') {
+			    agent {
+				label "freebsd"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/c++/
+	cd demos/c++
+	python3.6 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Java/py3') {
+			    agent {
+				label "freebsd"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/java/
+	cd demos/java
+	python3.6 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Jni/py3') {
+			    agent {
+				label "freebsd"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/jni/
+	cd demos/jni
+	python3.6 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Perl/py3') {
+			    agent {
+				label "freebsd"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/perl/
+	cd demos/perl
+	python3.6 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Python/py3') {
+			    agent {
+				label "freebsd"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/python/
+	cd demos/python
+	python3.6 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Ruby/py3') {
+			    agent {
+				label "freebsd"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/ruby/
+	cd demos/ruby
+	python3.6 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Glib2/py3') {
+			    agent {
+				label "freebsd"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/glib2/
+	cd demos/glib2
+	python3.6 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Qt5/py3') {
+			    agent {
+				label "freebsd"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/qt5/
+	cd demos/qt5
+	python3.6 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Dbus/py3') {
+			    agent {
+				label "freebsd"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/dbus/
+	cd demos/dbus
+	python3.6 ./waf distclean configure clean build
+	'''
+			    }
+			}
                     }
                 }
                 stage('MacOS') {
