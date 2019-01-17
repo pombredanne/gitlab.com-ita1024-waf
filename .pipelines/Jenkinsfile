@@ -101,45 +101,49 @@ cd tests/install_group/
                 }
             }
         }
-        stage('Integration/C') {
+        stage('Integration') {
             parallel {
-                stage('Ubuntu/py2.5') {
-                    agent {
-                        label "ubuntu"
-                    }
-                    steps {
-                        sh '''
-./waf-light
-cp waf demos/c
-cd demos/c
-LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build
-'''
-                    }
-                }
-                stage('Ubuntu/py2.7') {
-                    agent {
-                        label "ubuntu"
-                    }
-                    steps {
-                        sh '''
-./waf-light
-cp waf demos/c
-cd demos/c
-python2.7 ./waf distclean configure clean build
-'''
-                    }
-                }
-                stage('Ubuntu/py3') {
-                    agent {
-                        label "ubuntu"
-                    }
-                    steps {
-                        sh '''
-./waf-light
-cp waf demos/c
-cd demos/c
-python3 ./waf distclean configure clean build
-'''
+                stage('Ubuntu') {
+                    stages {
+                        stage('Ubuntu/py2.5') {
+			    agent {
+				label "ubuntu"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	cp waf demos/c
+	cd demos/c
+	LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Ubuntu/py2.7') {
+			    agent {
+				label "ubuntu"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	cp waf demos/c
+	cd demos/c
+	python2.7 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Ubuntu/py3') {
+			    agent {
+				label "ubuntu"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	cp waf demos/c
+	cd demos/c
+	python3 ./waf distclean configure clean build
+	'''
+			    }
+			}
                     }
                 }
                 stage('Openindiana/py2') {
