@@ -334,17 +334,21 @@ cd tests/install_group/
 			}
                     }
                 }
-                stage('FreeBSD/py3') {
-                    agent {
-                        label "freebsd"
-                    }
-                    steps {
-                        sh '''
-./waf-light
-/bin/cp waf demos/c/
-cd demos/c
-python3.6 ./waf distclean configure clean build
-'''
+                stage('FreeBSD') {
+                    stages {
+			stage('C/py3') {
+			    agent {
+				label "freebsd"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	/bin/cp waf demos/c/
+	cd demos/c
+	python3.6 ./waf distclean configure clean build
+	'''
+			    }
+			}
                     }
                 }
                 stage('MacOS') {
