@@ -105,7 +105,7 @@ cd tests/install_group/
             parallel {
                 stage('Ubuntu') {
                     stages {
-                        stage('Ubuntu/py2.5') {
+                        stage('C/py2.5') {
 			    agent {
 				label "ubuntu"
 			    }
@@ -118,7 +118,7 @@ cd tests/install_group/
 	'''
 			    }
 			}
-			stage('Ubuntu/py2.7') {
+			stage('C/py2.7') {
 			    agent {
 				label "ubuntu"
 			    }
@@ -131,7 +131,7 @@ cd tests/install_group/
 	'''
 			    }
 			}
-			stage('Ubuntu/py3') {
+			stage('C/py3') {
 			    agent {
 				label "ubuntu"
 			    }
@@ -141,6 +141,110 @@ cd tests/install_group/
 	cp waf demos/c
 	cd demos/c
 	python3 ./waf distclean configure clean build
+	'''
+			    }
+			}
+                    }
+                }
+                stage('OpenBSD') {
+                    stages {
+			stage('C/Jython') {
+			    agent {
+				label "openbsd"
+			    }
+			    steps {
+				sh '''
+	export WAF_NO_PREFORK=1
+	/home/jenkins/jython/bin/jython ./waf-light
+	cp waf demos/c
+	cd demos/c
+	/home/jenkins/jython/bin/jython ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('C/py3') {
+			    agent {
+				label "openbsd"
+			    }
+			    steps {
+				sh '''
+	python3 ./waf-light
+	cp waf demos/
+	cd demos/
+	python3 ./waf distclean
+	python3 ./waf configure installcheck
+	'''
+			    }
+			}
+                    }
+                }
+                stage('Windows/py3') {
+                    stages {
+			stage('C/py3') {
+			    agent {
+				label "windows"
+			    }
+			    steps {
+				bat '''
+	C:/Python34/python.exe waf-light
+	'''
+				bat '''
+	copy waf demos\\c /Y
+	cd demos\\c
+	C:/Python34/python.exe waf distclean
+	C:/Python34/python.exe waf configure --no-msvc-lazy build -v
+	'''
+			    }
+			}
+			stage('C/Msys2/py2') {
+			    agent {
+				label "windows"
+			    }
+			    steps {
+				bat '''
+	C:/Python34/python.exe waf-light
+	'''
+				bat '''
+	copy waf demos\\c /Y
+	cd demos\\c
+	set MSYSTEM=MINGW64
+	set WD=C:\\msys64\\usr\\bin
+	set CHERE_INVOKING=1
+	C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "python waf configure clean build && python waf distclean"'
+	'''
+			    }
+			}
+			stage('C/Msys2/py3') {
+			    agent {
+				label "windows"
+			    }
+			    steps {
+				bat '''
+	C:/Python34/python.exe waf-light
+	'''
+				bat '''
+	copy waf demos\\c /Y
+	cd demos\\c
+	set MSYSTEM=MINGW64
+	set WD=C:\\msys64\\usr\\bin
+	set CHERE_INVOKING=1
+	C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "python3 waf configure clean build && python3 waf distclean"'
+	'''
+			    }
+			}
+			stage('C/IronPython') {
+			    agent {
+				label "windows"
+			    }
+			    steps {
+				bat '''
+	C:/Python34/python.exe waf-light --zip-type=gz
+	'''
+				bat '''
+	copy waf demos\\c /Y
+	cd demos\\c
+	"C:\\Program Files (x86)\\IronPython 2.7\\ipy64.exe" waf distclean
+	"C:\\Program Files (x86)\\IronPython 2.7\\ipy64.exe" waf configure build build
 	'''
 			    }
 			}
@@ -156,34 +260,6 @@ cd tests/install_group/
 export WAFDIR=`pwd`
 export CFLAGS='-std=c99 -D_STDC_C99'
 ./waf configure clean build --top=$WAFDIR/demos/c
-'''
-                    }
-                }
-                stage('OpenBSD/py3') {
-                    agent {
-                        label "openbsd"
-                    }
-                    steps {
-                        sh '''
-python3 ./waf-light
-cp waf demos/
-cd demos/
-python3 ./waf distclean
-python3 ./waf configure installcheck
-'''
-                    }
-                }
-                stage('OpenBSD/Jython') {
-                    agent {
-                        label "openbsd"
-                    }
-                    steps {
-                        sh '''
-export WAF_NO_PREFORK=1
-/home/jenkins/jython/bin/jython ./waf-light
-cp waf demos/c
-cd demos/c
-/home/jenkins/jython/bin/jython ./waf distclean configure clean build
 '''
                     }
                 }
@@ -210,74 +286,6 @@ python3.6 ./waf distclean configure clean build
 /bin/cp waf demos/c/
 cd demos/c
 ./waf distclean configure clean build
-'''
-                    }
-                }
-                stage('Windows/py3') {
-                    agent {
-                        label "windows"
-                    }
-                    steps {
-                        bat '''
-C:/Python34/python.exe waf-light
-'''
-			bat '''
-copy waf demos\\c /Y
-cd demos\\c
-C:/Python34/python.exe waf distclean
-C:/Python34/python.exe waf configure --no-msvc-lazy build -v
-'''
-                    }
-                }
-                stage('Msys2/py2') {
-                    agent {
-                        label "windows"
-                    }
-                    steps {
-                        bat '''
-C:/Python34/python.exe waf-light
-'''
-                        bat '''
-copy waf demos\\c /Y
-cd demos\\c
-set MSYSTEM=MINGW64
-set WD=C:\\msys64\\usr\\bin
-set CHERE_INVOKING=1
-C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "python waf configure clean build && python waf distclean"'
-'''
-                    }
-                }
-                stage('Msys2/py3') {
-                    agent {
-                        label "windows"
-                    }
-                    steps {
-                        bat '''
-C:/Python34/python.exe waf-light
-'''
-			bat '''
-copy waf demos\\c /Y
-cd demos\\c
-set MSYSTEM=MINGW64
-set WD=C:\\msys64\\usr\\bin
-set CHERE_INVOKING=1
-C:\\msys64\\usr\\bin\\sh --login -c 'exec /bin/bash -c "python3 waf configure clean build && python3 waf distclean"'
-'''
-                    }
-                }
-                stage('Windows/IronPython') {
-                    agent {
-                        label "windows"
-                    }
-                    steps {
-                        bat '''
-C:/Python34/python.exe waf-light --zip-type=gz
-'''
-			bat '''
-copy waf demos\\c /Y
-cd demos\\c
-"C:\\Program Files (x86)\\IronPython 2.7\\ipy64.exe" waf distclean
-"C:\\Program Files (x86)\\IronPython 2.7\\ipy64.exe" waf configure build build
 '''
                     }
                 }
