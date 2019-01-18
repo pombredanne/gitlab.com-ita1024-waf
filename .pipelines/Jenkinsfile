@@ -111,7 +111,7 @@ cd tests/install_group/
                                 sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=subst'''
                             }
                         }
-                        stage('C/py3') {
+                        stage('py3') {
                             agent {
                                 label "ubuntu"
                             }
