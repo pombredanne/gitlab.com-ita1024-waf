@@ -9,7 +9,6 @@ pipeline {
                         label "ubuntu"
                     }
                     steps {
-                        echo "On ubuntu"
                         sh 'python2.7 ./waf-light'
                         stash includes: 'waf', name: 'waf'
                     }
