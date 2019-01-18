@@ -133,6 +133,84 @@ cd tests/install_group/
 	'''
 			    }
 			}
+			stage('C++/py2.7') {
+			    agent {
+				label "ubuntu"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	cp waf demos/c++
+	cd demos/c++
+	python2.7 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('java/py2.7') {
+			    agent {
+				label "ubuntu"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	cp waf demos/java
+	cd demos/java
+	python2.7 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Perl/py2.7') {
+			    agent {
+				label "ubuntu"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	cp waf demos/perl
+	cd demos/perl
+	python2.7 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Python/py2.7') {
+			    agent {
+				label "ubuntu"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	cp waf demos/python
+	cd demos/python
+	python2.7 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('Qt5/py2.7') {
+			    agent {
+				label "ubuntu"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	cp waf demos/qt5
+	cd demos/qt5
+	python2.7 ./waf distclean configure clean build
+	'''
+			    }
+			}
+			stage('subst/py2.7') {
+			    agent {
+				label "ubuntu"
+			    }
+			    steps {
+				sh '''
+	./waf-light
+	cp waf demos/subst
+	cd demos/subst
+	python2.7 ./waf distclean configure clean build
+	'''
+			    }
+			}
                     }
                 }
                 stage('OpenBSD') {
