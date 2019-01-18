@@ -11,8 +11,8 @@ pipeline {
                     steps {
                         echo "On ubuntu"
                         sh 'python2.7 ./waf-light'
+                        stash includes: 'waf', name: 'waf'
                     }
-                    stash includes: 'waf', name: 'waf'
                 }
                 stage('Python 3.6') {
                     agent {
@@ -116,36 +116,17 @@ cd tests/install_group/
                                 label "ubuntu"
                             }
                             steps {
-                                sh '''
-        python3 ./waf-light
-	cd demos;
-        python3 ../waf configure clean build --top=c
-        '''
-                                sh '''
-	cd demos;
-        python3 ../waf configure clean build --top=c++
-        '''
-                                sh '''
-	cd demos;
-        python3 ../waf configure clean build --top=java
-        '''
-                                sh '''
-	cd demos;
-        python3 ../waf configure clean build --top=perl
-        '''
-                                sh '''
-	cd demos;
-        python3 ../waf configure clean build --top=python
-        '''
-                                sh '''
-	cd demos;
-        python3 ../waf configure clean build --top=qt5
-        '''
-                                sh '''
-	cd demos;
-        python3 ../waf configure clean build --top=subst
-        '''
-                            }
+				dir('demos') {
+					unstash 'waf'
+				}
+				sh '''cd demos; python3 ./waf configure clean build --top=c'''
+				sh '''cd demos; python3 ./waf configure clean build --top=c++'''
+				sh '''cd demos; python3 ./waf configure clean build --top=java'''
+				sh '''cd demos; python3 ./waf configure clean build --top=perl'''
+				sh '''cd demos; python3 ./waf configure clean build --top=python'''
+				sh '''cd demos; python3 ./waf configure clean build --top=qt5'''
+				sh '''cd demos; python3 ./waf configure clean build --top=subst'''
+                     }
                         }
                         stage('py2.7') {
                             agent {
