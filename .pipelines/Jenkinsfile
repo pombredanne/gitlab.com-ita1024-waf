@@ -101,25 +101,26 @@ cd tests/install_group/
                             steps {
                                 sh '''
         ./waf-light
-        LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/c
+	cd demos;
+	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=c
         '''
                                 sh '''
-        LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/c++
+	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=c++
         '''
                                 sh '''
-        LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/java
+	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=java
         '''
                                 sh '''
-        LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/perl
+	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=perl
         '''
                                 sh '''
-        LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/python
+	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=python
         '''
                                 sh '''
-        LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/qt5
+	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=qt5
         '''
                                 sh '''
-        LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/subst
+	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=subst
         '''
                             }
                         }
