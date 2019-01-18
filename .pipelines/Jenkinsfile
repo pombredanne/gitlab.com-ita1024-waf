@@ -99,16 +99,16 @@ cd tests/install_group/
                                 label "ubuntu"
                             }
                             steps {
-				dir('demos') {
-					unstash 'waf'
-				}
+                                dir('demos') {
+                                        unstash 'waf'
+                                }
                                 sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=c'''
                                 sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=c++'''
                                 sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=java'''
                                 sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=perl'''
                                 sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=python'''
                                 sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=qt5'''
-				sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=subst'''
+                                sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=subst'''
                             }
                         }
                         stage('C/py3') {
@@ -116,16 +116,16 @@ cd tests/install_group/
                                 label "ubuntu"
                             }
                             steps {
-				dir('demos') {
-				    unstash 'waf'
-				}
-				sh '''cd demos; python3 ./waf configure clean build --top=c'''
-				sh '''cd demos; python3 ./waf configure clean build --top=c++'''
-				sh '''cd demos; python3 ./waf configure clean build --top=java'''
-				sh '''cd demos; python3 ./waf configure clean build --top=perl'''
-				sh '''cd demos; python3 ./waf configure clean build --top=python'''
-				sh '''cd demos; python3 ./waf configure clean build --top=qt5'''
-				sh '''cd demos; python3 ./waf configure clean build --top=subst'''
+                                dir('demos') {
+                                    unstash 'waf'
+                                }
+                                sh '''cd demos; python3 ./waf configure clean build --top=c'''
+                                sh '''cd demos; python3 ./waf configure clean build --top=c++'''
+                                sh '''cd demos; python3 ./waf configure clean build --top=java'''
+                                sh '''cd demos; python3 ./waf configure clean build --top=perl'''
+                                sh '''cd demos; python3 ./waf configure clean build --top=python'''
+                                sh '''cd demos; python3 ./waf configure clean build --top=qt5'''
+                                sh '''cd demos; python3 ./waf configure clean build --top=subst'''
                             }
                         }
                         stage('py2.7') {
@@ -133,16 +133,16 @@ cd tests/install_group/
                                 label "ubuntu"
                             }
                             steps {
-				dir('demos') {
-				    unstash 'waf'
-				}
-				sh '''cd demos; ./waf configure clean build --top=c'''
-				sh '''cd demos; ./waf configure clean build --top=c++'''
-				sh '''cd demos; ./waf configure clean build --top=java'''
-				sh '''cd demos; ./waf configure clean build --top=perl'''
-				sh '''cd demos; ./waf configure clean build --top=python'''
-				sh '''cd demos; ./waf configure clean build --top=qt5'''
-				sh '''cd demos; ./waf configure clean build --top=subst'''
+                                dir('demos') {
+                                    unstash 'waf'
+                                }
+                                sh '''cd demos; ./waf configure clean build --top=c'''
+                                sh '''cd demos; ./waf configure clean build --top=c++'''
+                                sh '''cd demos; ./waf configure clean build --top=java'''
+                                sh '''cd demos; ./waf configure clean build --top=perl'''
+                                sh '''cd demos; ./waf configure clean build --top=python'''
+                                sh '''cd demos; ./waf configure clean build --top=qt5'''
+                                sh '''cd demos; ./waf configure clean build --top=subst'''
                             }
                         }
                     }
@@ -253,95 +253,22 @@ cd tests/install_group/
                 }
                 stage('OpenIndiana') {
                     stages {
-                        stage('C/py2') {
+                        stage('py2.7') {
                             agent {
-                                label "openindiana"
+                                label "ubuntu"
                             }
                             steps {
-                                sh '''
-        ./waf-light
-        export WAFDIR=`pwd`
-        export CFLAGS='-std=c99 -D_STDC_C99'
-        ./waf configure clean build --top=$WAFDIR/demos/c
-        '''
-                            }
-                        }
-                        stage('C++/py2') {
-                            agent {
-                                label "openindiana"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        export WAFDIR=`pwd`
-        export CFLAGS='-std=c99 -D_STDC_C99'
-        ./waf configure clean build --top=$WAFDIR/demos/c++
-        '''
-                            }
-                        }
-                        stage('Dbus/py2') {
-                            agent {
-                                label "openindiana"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        export WAFDIR=`pwd`
-        export CFLAGS='-std=c99 -D_STDC_C99'
-        ./waf configure clean build --top=$WAFDIR/demos/dbus
-        '''
-                            }
-                        }
-                        stage('Java/py2') {
-                            agent {
-                                label "openindiana"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        export WAFDIR=`pwd`
-        export CFLAGS='-std=c99 -D_STDC_C99'
-        ./waf configure clean build --top=$WAFDIR/demos/java
-        '''
-                            }
-                        }
-                        stage('Perl/py2') {
-                            agent {
-                                label "openindiana"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        export WAFDIR=`pwd`
-        export CFLAGS='-std=c99 -D_STDC_C99'
-        ./waf configure clean build --top=$WAFDIR/demos/perl
-        '''
-                            }
-                        }
-                        stage('Python/py2') {
-                            agent {
-                                label "openindiana"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        export WAFDIR=`pwd`
-        export CFLAGS='-std=c99 -D_STDC_C99'
-        ./waf configure clean build --top=$WAFDIR/demos/python
-        '''
-                            }
-                        }
-                        stage('Ruby/py2') {
-                            agent {
-                                label "openindiana"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        export WAFDIR=`pwd`
-        export CFLAGS='-std=c99 -D_STDC_C99'
-        ./waf configure clean build --top=$WAFDIR/demos/ruby
-        '''
+                                dir('demos') {
+                                    unstash 'waf'
+                                }
+                                sh '''export CFLAGS='-std=c99 -D_STDC_C99''''
+                                sh '''cd demos; ./waf configure clean build --top=c'''
+                                sh '''cd demos; ./waf configure clean build --top=c++'''
+                                sh '''cd demos; ./waf configure clean build --top=dbus'''
+                                sh '''cd demos; ./waf configure clean build --top=java'''
+                                sh '''cd demos; ./waf configure clean build --top=perl'''
+                                sh '''cd demos; ./waf configure clean build --top=python'''
+                                sh '''cd demos; ./waf configure clean build --top=ruby'''
                             }
                         }
                     }
