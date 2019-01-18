@@ -127,25 +127,25 @@ cd tests/install_group/
 			    steps {
 				sh '''
 	./waf-light
-	./waf configure clean build --top=$WAFDIR/demos/c
+	./waf configure clean build --top=demos/c
 	'''
 				sh '''
-	./waf configure clean build --top=$WAFDIR/demos/c++
+	./waf configure clean build --top=demos/c++
 	'''
 				sh '''
-	./waf configure clean build --top=$WAFDIR/demos/java
+	./waf configure clean build --top=demos/java
 	'''
 				sh '''
-        ./waf configure clean build --top=$WAFDIR/demos/perl
+        ./waf configure clean build --top=demos/perl
 	'''
 				sh '''
-        ./waf configure clean build --top=$WAFDIR/demos/python
+        ./waf configure clean build --top=demos/python
 	'''
 				sh '''
-        ./waf configure clean build --top=$WAFDIR/demos/qt5
+        ./waf configure clean build --top=demos/qt5
 	'''
 				sh '''
-        ./waf configure clean build --top=$WAFDIR/demos/subst
+        ./waf configure clean build --top=demos/subst
 	'''
 			    }
 			}
