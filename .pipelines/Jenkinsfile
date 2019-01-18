@@ -117,7 +117,7 @@ cd tests/install_group/
                             }
                             steps {
 				dir('demos') {
-					unstash 'waf'
+				    unstash 'waf'
 				}
 				sh '''cd demos; python3 ./waf configure clean build --top=c'''
 				sh '''cd demos; python3 ./waf configure clean build --top=c++'''
@@ -126,42 +126,23 @@ cd tests/install_group/
 				sh '''cd demos; python3 ./waf configure clean build --top=python'''
 				sh '''cd demos; python3 ./waf configure clean build --top=qt5'''
 				sh '''cd demos; python3 ./waf configure clean build --top=subst'''
-                     }
+                            }
                         }
                         stage('py2.7') {
                             agent {
                                 label "ubuntu"
                             }
                             steps {
-                                sh '''
-        ./waf-light
-	cd demos;
-        ../waf configure clean build --top=c
-        '''
-                                sh '''
-	cd demos;
-        ../waf configure clean build --top=c++
-        '''
-                                sh '''
-	cd demos;
-        ../waf configure clean build --top=java
-        '''
-                                sh '''
-	cd demos;
-        ../waf configure clean build --top=perl
-        '''
-                                sh '''
-	cd demos;
-        ../waf configure clean build --top=python
-        '''
-                                sh '''
-	cd demos;
-        ../waf configure clean build --top=qt5
-        '''
-                                sh '''
-	cd demos;
-        ../waf configure clean build --top=subst
-        '''
+				dir('demos') {
+				    unstash 'waf'
+				}
+				sh '''cd demos; ./waf configure clean build --top=c'''
+				sh '''cd demos; ./waf configure clean build --top=c++'''
+				sh '''cd demos; ./waf configure clean build --top=java'''
+				sh '''cd demos; ./waf configure clean build --top=perl'''
+				sh '''cd demos; ./waf configure clean build --top=python'''
+				sh '''cd demos; ./waf configure clean build --top=qt5'''
+				sh '''cd demos; ./waf configure clean build --top=subst'''
                             }
                         }
                     }
