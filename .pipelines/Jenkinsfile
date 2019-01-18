@@ -179,21 +179,32 @@ cd tests/install_group/
                         }
                     }
                 }
-                stage('Windows/py3') {
+                stage('Windows') {
                     stages {
                         stage('C/py3') {
                             agent {
                                 label "windows"
                             }
                             steps {
-                                bat '''
-        C:/Python34/python.exe waf-light
-        '''
+                                unstash 'waf'
                                 bat '''
         copy waf demos\\c /Y
         cd demos\\c
         C:/Python34/python.exe waf distclean
         C:/Python34/python.exe waf configure --no-msvc-lazy build -v
+        '''
+                                bat '''
+        copy waf demos\\qt5 /Y
+        cd demos\\qt5
+        C:/Python34/python.exe waf distclean
+        C:/Python34/python.exe waf configure --no-msvc-lazy build -v
+        '''
+                                bat '''
+        copy waf playground\\msvs /Y
+        cd playground\\msvs
+        C:/Python34/python.exe waf distclean
+        C:/Python34/python.exe waf configure
+        C:/Python34/python.exe waf msvs
         '''
                             }
                         }
@@ -202,9 +213,7 @@ cd tests/install_group/
                                 label "windows"
                             }
                             steps {
-                                bat '''
-        C:/Python34/python.exe waf-light
-        '''
+                                unstash 'waf'
                                 bat '''
         copy waf demos\\c /Y
         cd demos\\c
@@ -220,9 +229,7 @@ cd tests/install_group/
                                 label "windows"
                             }
                             steps {
-                                bat '''
-        C:/Python34/python.exe waf-light
-        '''
+                                unstash 'waf'
                                 bat '''
         copy waf demos\\c /Y
         cd demos\\c
@@ -275,177 +282,41 @@ cd tests/install_group/
                 }
                 stage('FreeBSD') {
                     stages {
-                        stage('C/py3') {
+                        stage('py3') {
                             agent {
                                 label "freebsd"
                             }
                             steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/c/
-        cd demos/c
-        python3.6 ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('C++/py3') {
-                            agent {
-                                label "freebsd"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/c++/
-        cd demos/c++
-        python3.6 ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('Java/py3') {
-                            agent {
-                                label "freebsd"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/java/
-        cd demos/java
-        python3.6 ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('Jni/py3') {
-                            agent {
-                                label "freebsd"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/jni/
-        cd demos/jni
-        python3.6 ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('Perl/py3') {
-                            agent {
-                                label "freebsd"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/perl/
-        cd demos/perl
-        python3.6 ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('Python/py3') {
-                            agent {
-                                label "freebsd"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/python/
-        cd demos/python
-        python3.6 ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('Ruby/py3') {
-                            agent {
-                                label "freebsd"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/ruby/
-        cd demos/ruby
-        python3.6 ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('Glib2/py3') {
-                            agent {
-                                label "freebsd"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/glib2/
-        cd demos/glib2
-        python3.6 ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('Qt5/py3') {
-                            agent {
-                                label "freebsd"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/qt5/
-        cd demos/qt5
-        python3.6 ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('Dbus/py3') {
-                            agent {
-                                label "freebsd"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/dbus/
-        cd demos/dbus
-        python3.6 ./waf distclean configure clean build
-        '''
+                                dir('demos') {
+                                    unstash 'waf'
+                                }
+                                sh '''cd demos/c; python3.6 ../waf distclean configure clean build'''
+                                sh '''cd demos/c++; python3.6 ../waf distclean configure clean build'''
+                                sh '''cd demos/java; python3.6 ../waf distclean configure clean build'''
+                                sh '''cd demos/jni; python3.6 ../waf distclean configure clean build'''
+                                sh '''cd demos/perl; python3.6 ../waf distclean configure clean build'''
+                                sh '''cd demos/python; python3.6 ../waf distclean configure clean build'''
+                                sh '''cd demos/ruby; python3.6 ../waf distclean configure clean build'''
+                                sh '''cd demos/glib2; python3.6 ../waf distclean configure clean build'''
+                                sh '''cd demos/qt5; python3.6 ../waf distclean configure clean build'''
+                                sh '''cd demos/dbus; python3.6 ../waf distclean configure clean build'''
                             }
                         }
                     }
                 }
                 stage('MacOS') {
                     stages {
-                        stage('C/py2') {
+                        stage('py2') {
                             agent {
                                 label "macos"
                             }
                             steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/c/
-        cd demos/c
-        ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('Python/py2') {
-                            agent {
-                                label "macos"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/python/
-        cd demos/python
-        ./waf distclean configure clean build
-        '''
-                            }
-                        }
-                        stage('MacApp/py2') {
-                            agent {
-                                label "macos"
-                            }
-                            steps {
-                                sh '''
-        ./waf-light
-        /bin/cp waf demos/mac_app/
-        cd demos/mac_app
-        ./waf distclean configure clean build
-        '''
+                                dir('demos') {
+                                    unstash 'waf'
+                                }
+                                sh '''cd demos/c; ../waf distclean configure clean build'''
+                                sh '''cd demos/python; ../waf distclean configure clean build'''
+                                sh '''cd demos/mac_app; ../waf distclean configure clean build'''
                             }
                         }
                     }
