@@ -101,9 +101,25 @@ cd tests/install_group/
 			    steps {
 				sh '''
 	./waf-light
-	cp waf demos/c
-	cd demos/c
-	LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build
+	LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/c
+	'''
+				sh '''
+	LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/c++
+	'''
+				sh '''
+	LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/java
+	'''
+				sh '''
+	LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/perl
+	'''
+				sh '''
+	LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/python
+	'''
+				sh '''
+	LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/qt5
+	'''
+				sh '''
+	LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build --top=demos/subst
 	'''
 			    }
 			}
@@ -113,11 +129,27 @@ cd tests/install_group/
 			    }
 			    steps {
 				sh '''
-	./waf-light
-	cp waf demos/c
-	cd demos/c
-	python3 ./waf distclean configure clean build
+	python3 ./waf-light
+	python3 ./waf configure clean build --top=demos/c
 	'''
+				sh '''
+	python3 ./waf configure clean build --top=demos/c++
+	'''
+				sh '''
+	python3 ./waf configure clean build --top=demos/java
+	'''
+				sh '''
+        python3 ./waf configure clean build --top=demos/perl
+	'''
+				sh '''
+        python3 ./waf configure clean build --top=demos/python
+	'''
+				sh '''
+        python3 ./waf configure clean build --top=demos/qt5
+	'''
+				sh '''
+        python3 ./waf configure clean build --top=demos/subst
+
 			    }
 			}
 			stage('py2.7') {
