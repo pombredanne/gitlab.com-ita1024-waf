@@ -105,21 +105,27 @@ cd tests/install_group/
 	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=c
         '''
                                 sh '''
+	cd demos;
 	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=c++
         '''
                                 sh '''
+	cd demos;
 	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=java
         '''
                                 sh '''
+	cd demos;
 	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=perl
         '''
                                 sh '''
+	cd demos;
 	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=python
         '''
                                 sh '''
+	cd demos;
 	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=qt5
         '''
                                 sh '''
+	cd demos;
 	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=subst
         '''
                             }
@@ -131,25 +137,32 @@ cd tests/install_group/
                             steps {
                                 sh '''
         python3 ./waf-light
-        python3 ./waf configure clean build --top=demos/c
+	cd demos;
+        python3 ../waf configure clean build --top=c
         '''
                                 sh '''
-        python3 ./waf configure clean build --top=demos/c++
+	cd demos;
+        python3 ../waf configure clean build --top=c++
         '''
                                 sh '''
-        python3 ./waf configure clean build --top=demos/java
+	cd demos;
+        python3 ../waf configure clean build --top=java
         '''
                                 sh '''
-        python3 ./waf configure clean build --top=demos/perl
+	cd demos;
+        python3 ../waf configure clean build --top=perl
         '''
                                 sh '''
-        python3 ./waf configure clean build --top=demos/python
+	cd demos;
+        python3 ../waf configure clean build --top=python
         '''
                                 sh '''
-        python3 ./waf configure clean build --top=demos/qt5
+	cd demos;
+        python3 ../waf configure clean build --top=qt5
         '''
                                 sh '''
-        python3 ./waf configure clean build --top=demos/subst
+	cd demos;
+        python3 ../waf configure clean build --top=subst
         '''
                             }
                         }
@@ -160,25 +173,32 @@ cd tests/install_group/
                             steps {
                                 sh '''
         ./waf-light
-        ./waf configure clean build --top=demos/c
+	cd demos;
+        ../waf configure clean build --top=c
         '''
                                 sh '''
-        ./waf configure clean build --top=demos/c++
+	cd demos;
+        ../waf configure clean build --top=c++
         '''
                                 sh '''
-        ./waf configure clean build --top=demos/java
+	cd demos;
+        ../waf configure clean build --top=java
         '''
                                 sh '''
-        ./waf configure clean build --top=demos/perl
+	cd demos;
+        ../waf configure clean build --top=perl
         '''
                                 sh '''
-        ./waf configure clean build --top=demos/python
+	cd demos;
+        ../waf configure clean build --top=python
         '''
                                 sh '''
-        ./waf configure clean build --top=demos/qt5
+	cd demos;
+        ../waf configure clean build --top=qt5
         '''
                                 sh '''
-        ./waf configure clean build --top=demos/subst
+	cd demos;
+        ../waf configure clean build --top=subst
         '''
                             }
                         }
