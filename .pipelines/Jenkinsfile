@@ -186,7 +186,7 @@ cd tests/install_group/
                                 label "windows"
                             }
                             steps {
--                               bat '''C:/Python34/python.exe waf-light --tools=msvs'''
+-                               bat ''' C:/Python34/python.exe waf-light --tools=msvs '''
                                 bat '''
         copy waf demos\\c /Y
         cd demos\\c
