@@ -255,7 +255,7 @@ cd tests/install_group/
                     stages {
                         stage('py2.7') {
                             agent {
-                                label "ubuntu"
+                                label "openindiana"
                             }
                             steps {
                                 dir('demos') {
