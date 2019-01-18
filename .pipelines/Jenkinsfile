@@ -261,7 +261,7 @@ cd tests/install_group/
                                 dir('demos') {
                                     unstash 'waf'
                                 }
-                                sh '''export CFLAGS='-std=c99 -D_STDC_C99''''
+                                sh '''export CFLAGS='-std=c99 -D_STDC_C99' '''
                                 sh '''cd demos; ./waf configure clean build --top=c'''
                                 sh '''cd demos; ./waf configure clean build --top=c++'''
                                 sh '''cd demos; ./waf configure clean build --top=dbus'''
