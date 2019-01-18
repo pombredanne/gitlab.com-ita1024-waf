@@ -94,7 +94,7 @@ cd tests/install_group/
             parallel {
                 stage('Ubuntu') {
                     stages {
-                        stage('C/py2.5') {
+                        stage('py2.5') {
 			    agent {
 				label "ubuntu"
 			    }
@@ -104,19 +104,6 @@ cd tests/install_group/
 	cp waf demos/c
 	cd demos/c
 	LD_LIBRARY_PATH=/opt/lib /opt/bin/python2.5 ./waf distclean configure clean build
-	'''
-			    }
-			}
-			stage('C/py2.7') {
-			    agent {
-				label "ubuntu"
-			    }
-			    steps {
-				sh '''
-	./waf-light
-	cp waf demos/c
-	cd demos/c
-	python2.7 ./waf distclean configure clean build
 	'''
 			    }
 			}
@@ -133,81 +120,32 @@ cd tests/install_group/
 	'''
 			    }
 			}
-			stage('C++/py2.7') {
+			stage('py2.7') {
 			    agent {
 				label "ubuntu"
 			    }
 			    steps {
 				sh '''
 	./waf-light
-	cp waf demos/c++
-	cd demos/c++
-	python2.7 ./waf distclean configure clean build
+	./waf configure clean build --top=$WAFDIR/demos/c
 	'''
-			    }
-			}
-			stage('java/py2.7') {
-			    agent {
-				label "ubuntu"
-			    }
-			    steps {
 				sh '''
-	./waf-light
-	cp waf demos/java
-	cd demos/java
-	python2.7 ./waf distclean configure clean build
+	./waf configure clean build --top=$WAFDIR/demos/c++
 	'''
-			    }
-			}
-			stage('Perl/py2.7') {
-			    agent {
-				label "ubuntu"
-			    }
-			    steps {
 				sh '''
-	./waf-light
-	cp waf demos/perl
-	cd demos/perl
-	python2.7 ./waf distclean configure clean build
+	./waf configure clean build --top=$WAFDIR/demos/java
 	'''
-			    }
-			}
-			stage('Python/py2.7') {
-			    agent {
-				label "ubuntu"
-			    }
-			    steps {
 				sh '''
-	./waf-light
-	cp waf demos/python
-	cd demos/python
-	python2.7 ./waf distclean configure clean build
+        ./waf configure clean build --top=$WAFDIR/demos/perl
 	'''
-			    }
-			}
-			stage('Qt5/py2.7') {
-			    agent {
-				label "ubuntu"
-			    }
-			    steps {
 				sh '''
-	./waf-light
-	cp waf demos/qt5
-	cd demos/qt5
-	python2.7 ./waf distclean configure clean build
+        ./waf configure clean build --top=$WAFDIR/demos/python
 	'''
-			    }
-			}
-			stage('subst/py2.7') {
-			    agent {
-				label "ubuntu"
-			    }
-			    steps {
 				sh '''
-	./waf-light
-	cp waf demos/subst
-	cd demos/subst
-	python2.7 ./waf distclean configure clean build
+        ./waf configure clean build --top=$WAFDIR/demos/qt5
+	'''
+				sh '''
+        ./waf configure clean build --top=$WAFDIR/demos/subst
 	'''
 			    }
 			}
