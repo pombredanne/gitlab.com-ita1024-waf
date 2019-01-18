@@ -93,7 +93,7 @@ cd tests/install_group/
             parallel {
                 stage('Ubuntu') {
                     stages {
-                        stage('py2.5') {
+                        stage('py25') {
                             agent {
                                 label "ubuntu"
                             }
@@ -110,7 +110,7 @@ cd tests/install_group/
                                 sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=subst'''
                             }
                         }
-                        stage('py3') {
+                        stage('py36') {
                             agent {
                                 label "ubuntu"
                             }
@@ -127,7 +127,7 @@ cd tests/install_group/
                                 sh '''cd demos; python3 ./waf configure clean build --top=subst'''
                             }
                         }
-                        stage('py2.7') {
+                        stage('py27') {
                             agent {
                                 label "ubuntu"
                             }
@@ -162,7 +162,7 @@ cd tests/install_group/
         '''
                             }
                         }
-                        stage('py2.7') {
+                        stage('py27') {
                             agent {
                                 label "openbsd"
                             }
@@ -179,7 +179,7 @@ cd tests/install_group/
                                 sh '''cd demos/subst; /usr/local/bin/python2.7 ../waf configure clean build'''
                             }
                         }
-                        stage('py3') {
+                        stage('py36') {
                             agent {
                                 label "openbsd"
                             }
@@ -200,7 +200,7 @@ cd tests/install_group/
                 }
                 stage('Windows') {
                     stages {
-                        stage('C/py3') {
+                        stage('C/py34') {
                             agent {
                                 label "windows"
                             }
@@ -227,7 +227,7 @@ cd tests/install_group/
         '''
                             }
                         }
-                        stage('C/Msys2/py2') {
+                        stage('C/Msys2/py27') {
                             agent {
                                 label "windows"
                             }
@@ -243,7 +243,7 @@ cd tests/install_group/
         '''
                             }
                         }
-                        stage('C/Msys2/py3') {
+                        stage('C/Msys2/py35') {
                             agent {
                                 label "windows"
                             }
@@ -279,7 +279,7 @@ cd tests/install_group/
                 }
                 stage('OpenIndiana') {
                     stages {
-                        stage('py2.7') {
+                        stage('py27') {
                             agent {
                                 label "openindiana"
                             }
@@ -301,7 +301,7 @@ cd tests/install_group/
                 }
                 stage('FreeBSD') {
                     stages {
-                        stage('py3') {
+                        stage('py36') {
                             agent {
                                 label "freebsd"
                             }
@@ -325,7 +325,7 @@ cd tests/install_group/
                 }
                 stage('MacOS') {
                     stages {
-                        stage('py2') {
+                        stage('py27') {
                             agent {
                                 label "macos"
                             }
