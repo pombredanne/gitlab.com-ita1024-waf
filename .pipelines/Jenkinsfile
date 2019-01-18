@@ -12,13 +12,13 @@ pipeline {
                         echo "On ubuntu"
                         sh 'python2.7 ./waf-light'
                     }
+                    stash includes: 'waf', name: 'waf'
                 }
                 stage('Python 3.6') {
                     agent {
                         label "freebsd"
                     }
                     steps {
-                        echo "On Freebsd"
                         sh 'python3.6 ./waf-light'
                     }
                 }
@@ -99,35 +99,16 @@ cd tests/install_group/
                                 label "ubuntu"
                             }
                             steps {
-                                sh '''
-        ./waf-light
-	cd demos;
-	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=c
-        '''
-                                sh '''
-	cd demos;
-	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=c++
-        '''
-                                sh '''
-	cd demos;
-	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=java
-        '''
-                                sh '''
-	cd demos;
-	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=perl
-        '''
-                                sh '''
-	cd demos;
-	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=python
-        '''
-                                sh '''
-	cd demos;
-	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=qt5
-        '''
-                                sh '''
-	cd demos;
-	LD_LIBRARY_PATH=/opt/lib ../waf distclean configure clean build --top=subst
-        '''
+				dir('demos') {
+					unstash 'waf'
+				}
+                                sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=c'''
+                                sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=c++'''
+                                sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=java'''
+                                sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=perl'''
+                                sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=python'''
+                                sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=qt5'''
+				sh '''cd demos; LD_LIBRARY_PATH=/opt/lib ./waf distclean configure clean build --top=subst'''
                             }
                         }
                         stage('C/py3') {
