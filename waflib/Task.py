@@ -132,10 +132,7 @@ class store_task_type(type):
 			# be creative
 			getattr(cls, 'register', classes)[name] = cls
 
-evil = store_task_type('evil', (object,), {})
-"Base class provided to avoid writing a metaclass, so the code can run in python 2.6 and 3.x unmodified"
-
-class Task(evil):
+class Task(metaclass=store_task_type):
 	"""
 	Task objects represents actions to perform such as commands to execute by calling the `run` method.
 
@@ -1349,9 +1346,6 @@ def deep_inputs(cls):
 		Task.sig_deep_inputs(self)
 	cls.sig_explicit_deps = sig_explicit_deps
 	return cls
-
-TaskBase = Task
-"Provided for compatibility reasons, TaskBase should not be used"
 
 class TaskSemaphore(object):
 	"""

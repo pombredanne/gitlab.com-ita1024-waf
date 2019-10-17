@@ -43,9 +43,6 @@ class PriorityTasks(object):
 		self.lst = []
 	def append(self, task):
 		heapq.heappush(self.lst, task)
-	def appendleft(self, task):
-		"Deprecated, do not use"
-		heapq.heappush(self.lst, task)
 	def pop(self):
 		return heapq.heappop(self.lst)
 	def extend(self, lst):

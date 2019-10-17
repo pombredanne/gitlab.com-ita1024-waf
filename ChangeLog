@@ -1,3 +1,7 @@
+- Remove waflib.Runner.PriorityTasks.appendleft
+- Remove waflib.Task.TaskBase
+- Remove the upper class of waflib.Task.Task (metaclasses)
+
 NEW IN WAF 2.0.19
 -----------------
 * Fix negative values for -j #2256

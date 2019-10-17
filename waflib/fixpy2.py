@@ -62,3 +62,6 @@ def r4(code):
 def r5(code):
 	return code.replace("('Execution failure: %s'%str(e),ex=e)", "('Execution failure: %s'%str(e),ex=e),None,sys.exc_info()[2]")
 
+@subst('Task.py')
+def r6(code):
+	return code.replace('metaclass=store_task_type', "store_task_type('evil', (object,), {})")
