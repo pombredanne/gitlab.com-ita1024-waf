@@ -1,6 +1,9 @@
+CHANGES IN WAF 2.1
+------------------
++ Added wafcache
 - Remove waflib.Runner.PriorityTasks.appendleft
 - Remove waflib.Task.TaskBase
-- Remove the upper class of waflib.Task.Task (metaclasses)
+- Remove the upper class of waflib.Task.Task (metaclass syntax)
 
 NEW IN WAF 2.0.19
 -----------------
