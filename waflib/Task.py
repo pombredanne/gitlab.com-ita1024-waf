@@ -109,7 +109,7 @@ class store_task_type(type):
 		super(store_task_type, cls).__init__(name, bases, dict)
 		name = cls.__name__
 
-		if name != 'evil' and name != 'Task':
+		if name != 'Task':
 			if getattr(cls, 'run_str', None):
 				# if a string is provided, convert it to a method
 				(f, dvars) = compile_fun(cls.run_str, cls.shell)

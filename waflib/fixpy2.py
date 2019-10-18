@@ -64,4 +64,4 @@ def r5(code):
 
 @subst('Task.py')
 def r6(code):
-	return code.replace('metaclass=store_task_type', "store_task_type('evil', (object,), {})")
+	return code.replace('class Task(metaclass=store_task_type):', "class Task(object):%s\t__metaclass__=store_task_type" % os.linesep)
