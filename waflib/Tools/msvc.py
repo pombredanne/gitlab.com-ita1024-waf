@@ -21,7 +21,7 @@ Usage::
 or::
 
 	def configure(conf):
-		conf.env.MSVC_VERSIONS = ['msvc 10.0', 'msvc 9.0', 'msvc 8.0', 'msvc 7.1', 'msvc 7.0', 'msvc 6.0', 'wsdk 7.0', 'intel 11', 'PocketPC 9.0', 'Smartphone 8.0']
+		conf.env.MSVC_VERSIONS = ['msvc 10.0', 'msvc 9.0', 'msvc 8.0', 'msvc 7.1', 'msvc 7.0', 'msvc 6.0', 'wsdk 7.0', 'intel 11', 'PocketPC 9.0']
 		conf.env.MSVC_TARGETS = ['x64']
 		conf.load('msvc')
 
@@ -47,8 +47,6 @@ Compilers supported:
 * msvc       => Visual Studio, versions 6.0 (VC 98, VC .NET 2002) to 15 (Visual Studio 2017)
 * wsdk       => Windows SDK, versions 6.0, 6.1, 7.0, 7.1, 8.0
 * icl        => Intel compiler, versions 9, 10, 11, 13
-* winphone   => Visual Studio to target Windows Phone 8 native (version 8.0 for now)
-* Smartphone => Compiler/SDK for Smartphone devices (armv4/v4i)
 * PocketPC   => Compiler/SDK for PocketPC devices (armv4/v4i)
 
 To use WAF in a VS2008 Make file project (see http://code.google.com/p/waf/issues/detail?id=894)
@@ -436,15 +434,6 @@ def gather_wince_targets(conf, versions, version, vc_path, vsvars, supported_pla
 			versions[device + ' ' + version] = targets
 
 @conf
-def gather_winphone_targets(conf, versions, version, vc_path, vsvars):
-	#Looking for WinPhone compilers
-	targets = {}
-	for target,realtarget in all_msvc_platforms[::-1]:
-		targets[target] = target_compiler(conf, 'winphone', realtarget, version, target, vsvars)
-	if targets:
-		versions['winphone ' + version] = targets
-
-@conf
 def gather_vswhere_versions(conf, versions):
 	try:
 		import json
@@ -503,15 +492,6 @@ def gather_msvc_versions(conf, versions):
 		vsvars = os.path.join(vs_path, 'Common7', 'Tools', 'vsvars32.bat')
 		if wince_supported_platforms and os.path.isfile(vsvars):
 			conf.gather_wince_targets(versions, version, vc_path, vsvars, wince_supported_platforms)
-
-	# WP80 works with 11.0Exp and 11.0, both of which resolve to the same vc_path.
-	# Stop after one is found.
-	for version,vc_path in vc_paths:
-		vs_path = os.path.dirname(vc_path)
-		vsvars = os.path.join(vs_path, 'VC', 'WPSDK', 'WP80', 'vcvarsphoneall.bat')
-		if os.path.isfile(vsvars):
-			conf.gather_winphone_targets(versions, '8.0', vc_path, vsvars)
-			break
 
 	for version,vc_path in vc_paths:
 		vs_path = os.path.dirname(vc_path)
@@ -999,16 +979,6 @@ def make_winapp(self, family):
 	append('CXXFLAGS', ['/ZW', '/TP'])
 	for lib_path in self.env.LIBPATH:
 		append('CXXFLAGS','/AI%s'%lib_path)
-
-@feature('winphoneapp')
-@after_method('process_use')
-@after_method('propagate_uselib_vars')
-def make_winphone_app(self):
-	"""
-	Insert configuration flags for windows phone applications (adds /ZW, /TP...)
-	"""
-	make_winapp(self, 'WINAPI_FAMILY_PHONE_APP')
-	self.env.append_unique('LINKFLAGS', ['/NODEFAULTLIB:ole32.lib', 'PhoneAppModelHost.lib'])
 
 @feature('winapp')
 @after_method('process_use')

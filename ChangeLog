@@ -4,6 +4,7 @@ CHANGES IN WAF 2.1
 - Remove waflib.Runner.PriorityTasks.appendleft
 - Remove waflib.Task.TaskBase
 - Remove the upper class of waflib.Task.Task (metaclass syntax)
+- Remove Winphone/WinCE detection in msvc.py
 
 NEW IN WAF 2.0.19
 -----------------
