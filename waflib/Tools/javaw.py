@@ -260,7 +260,7 @@ def use_javac_files(self):
 		if getattr(self, 'recurse_use', False) or self.bld.env.RECURSE_JAVA:
 			self.java_use_rec(x)
 
-	self.env.append_value('CLASSPATH', self.use_lst)
+	self.env.prepend_value('CLASSPATH', self.use_lst)
 
 @feature('javac')
 @after_method('apply_java', 'propagate_uselib_vars', 'use_javac_files')
